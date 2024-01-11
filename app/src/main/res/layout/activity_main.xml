@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/arizonia"
+            android:gravity="center"
+            android:text=" Quotiva "
+            android:textColor="@color/design_default_color_on_primary"
+            android:textSize="75sp">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/slagless"
+            android:gravity="center"
+            android:text="Inspiration in Every Quote"
+            android:textColor="@color/design_default_color_on_primary"
+            android:textSize="20sp">
+
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>
+
+<androidx.cardview.widget.CardView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true"
+android:layout_marginBottom="-40dp"
+android:padding="30dp"
+app:cardCornerRadius="45dp"
+android:layout_alignParentTop="true"
+android:layout_marginTop="200dp"
+app:cardBackgroundColor="@color/material_on_background_emphasis_high_type">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="35dp">
+
+
+        <ImageView
+            android:id="@+id/imageViewId"
+            android:layout_width="380dp"
+            android:layout_height="380dp"
+            android:layout_gravity="center"
+            android:src="@drawable/one"
+            android:alpha="1">
+
+        </ImageView>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/prevBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Previos"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/slagless"/>
+
+
+        <ImageButton
+            android:id="@+id/likeBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/roundcorner"
+            android:padding="10dp"
+            android:src="@drawable/heartempty"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_marginRight="5dp"
+            >
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/shareBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/roundcorner"
+            android:padding="10dp"
+            android:src="@drawable/share"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="5dp"
+            >
+
+        </ImageButton>
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/slagless"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/likedQuotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liked Quotes"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:fontFamily="@font/slagless"/>
+
+</LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+    </RelativeLayout>
