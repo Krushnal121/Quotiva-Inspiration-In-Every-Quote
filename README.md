@@ -24,8 +24,11 @@ Join the Quotiva community and let the power of words uplift your spirit. Whethe
 
 ![quotivabanner2](https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/85bd5967-e1a8-4f05-a89f-8ecce2d1567f)
 
+## Screenshots
 
-![Screenshot_20240113_204728](https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/53aaa038-540f-4131-bcc6-cb73ed7e2fc0)
-![Screenshot_20240113_204702](https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/ab6e9f5f-c20a-45e3-b2d9-95edbbdf8764)
-![Screenshot_20240113_205039](https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/7d3c4b9d-e798-423d-beb4-da4bd8a22599)
-![Screenshot_20240113_204738](https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/72c9cd23-8fa5-4a5f-bc50-0eaeee2a92da)
+<p float="left">
+  <img src="https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/53aaa038-540f-4131-bcc6-cb73ed7e2fc0" width="24.6%" />
+  <img src="https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/ab6e9f5f-c20a-45e3-b2d9-95edbbdf8764" width="24.6%" />
+  <img src="https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/7d3c4b9d-e798-423d-beb4-da4bd8a22599" width="24.6%" />
+  <img src="https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/72c9cd23-8fa5-4a5f-bc50-0eaeee2a92da" width="24.6%" />
+</p>
