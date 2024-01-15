@@ -1,4 +1,3 @@
-
 ![quotivabanner](https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/e41ed062-04a5-4b9e-b499-d8f3fa7dd80a)
 
 # Quotiva - Your Gateway to Inspiration! 🌟
@@ -32,3 +31,6 @@ Join the Quotiva community and let the power of words uplift your spirit. Whethe
   <img src="https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/7d3c4b9d-e798-423d-beb4-da4bd8a22599" width="24.6%" />
   <img src="https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/72c9cd23-8fa5-4a5f-bc50-0eaeee2a92da" width="24.6%" />
 </p>
+
+## Demo of Application
+[<img src="https://github.com/Krushnal121/Quotiva-Inspiration-In-Every-Quote/assets/109232748/3716a632-5d7f-4c4e-ae61-283b43fd55fe" width="100%">](https://drive.google.com/file/d/1fOghXF8fBxv7Ozpx1P_GJnu-qUYG0T-o/view?usp=drive_link "Demo of Application")
