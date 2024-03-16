@@ -1,7 +1,8 @@
 package com.example.quotiva
 
 import android.content.Intent
-import android.media.Image
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Vibrator
@@ -11,23 +12,15 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import kotlin.random.Random
 import java.nio.file.Files
-import androidx.core.graphics.drawable.toBitmap
-import java.io.FileOutputStream
-import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.content.FileProvider
-import androidx.core.app.ActivityCompat
-import android.Manifest
+import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
-
-
-
-
-
-
-
-
-
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import java.io.FileOutputStream
+import android.net.Uri
 
 
 class
@@ -40,12 +33,13 @@ MainActivity : AppCompatActivity() {
 
 
     private lateinit var imageView: ImageView
-
+    private var imageUri: Uri? = null
     private lateinit var previousButton: Button
     private lateinit var nextButton: Button
     lateinit var viewLikedImagesButton: Button
     private lateinit var vibrator: Vibrator
     private lateinit var shareButton: ImageButton
+    lateinit var urltemp: String
 
 
 
@@ -60,14 +54,12 @@ MainActivity : AppCompatActivity() {
 
     private var imageIndex = 0
     private val images = arrayOf(R.drawable.one, R.drawable.two, R.drawable.three,R.drawable.four,R.drawable.five,R.drawable.six,R.drawable.seven,R.drawable.eight,R.drawable.nine,R.drawable.ten,R.drawable.eleven,R.drawable.twelve,R.drawable.thirteen,R.drawable.fourteen,R.drawable.fifteen,R.drawable.sixteen,R.drawable.seventeen, R.drawable.eighteen,R.drawable.nineteen,R.drawable.twenty)
-    var likedImages = mutableListOf<Int>()
+    var likedImages = mutableListOf<String>()
 
     private fun loadLikedImagesFromPreferences() {
         val sharedPreferences = getSharedPreferences("my_app_prefs", MODE_PRIVATE)
         val savedLikedImages = sharedPreferences.getStringSet("liked_images", null)
-        likedImages = savedLikedImages?.toList()?.map { it.toInt() }?.toMutableList() ?: mutableListOf()
-
-
+        likedImages = savedLikedImages?.toMutableList() ?: mutableListOf()
     }
 
     private fun saveLikedImagesToPreferences() {
@@ -104,11 +96,11 @@ MainActivity : AppCompatActivity() {
 
         likeButton.setOnClickListener {
             vibrator?.vibrate(10)
-            if (images[imageIndex] !in likedImages) {
-                likedImages.add(images[imageIndex])
+            if (urltemp !in likedImages) {
+                likedImages.add(urltemp)
                 likeButton.setImageResource(R.drawable.heartfilled) // Update button icon
             } else {
-                likedImages.remove(images[imageIndex])
+                likedImages.remove(urltemp)
                 likeButton.setImageResource(R.drawable.heartempty) // Update button icon
             }
         }
@@ -132,13 +124,13 @@ MainActivity : AppCompatActivity() {
         viewLikedImagesButton.setOnClickListener {
             vibrator?.vibrate(10)
             val intent = Intent(this, LikedImagesActivity::class.java)
-            intent.putIntegerArrayListExtra("likedImages", ArrayList(likedImages))
+            intent.putStringArrayListExtra("likedImages", ArrayList(likedImages))
             startActivity(intent)
         }
 
 
         shareButton.setOnClickListener {
-            //shareCurrentImage()
+            shareImage()
         }
 
 
@@ -149,7 +141,7 @@ MainActivity : AppCompatActivity() {
         saveLikedImagesToPreferences()
     }
 
-    private fun displayImage() {
+    /*private fun displayImage() {
         imageView.setImageResource(images[imageIndex])
 
         // Check if the current image is liked and update the button icon accordingly
@@ -158,36 +150,100 @@ MainActivity : AppCompatActivity() {
         } else {
             likeButton.setImageResource(R.drawable.heartempty)
         }
+    }*/
+
+    private fun displayImage() {
+
+        // Access Firestore and get quotes collection
+        val db = FirebaseFirestore.getInstance()
+        val quotesCollection = db.collection("quotes")
+
+        // Fetch a random quote document (you can use queries for filtering)
+        quotesCollection.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val documents = task.result
+                if (documents != null && !documents.isEmpty()) {
+                    val randomIndex = Random.nextInt(documents.size())
+                    val randomQuote = documents.documents[randomIndex]
+
+                    // Extract quote text, author (optional), and imageUrl
+                    val quoteText = randomQuote.getString("quote") ?: ""
+                    val author = randomQuote.getString("author")
+                    val imageUrl = randomQuote.getString("image") ?: ""
+
+                    // Update UI elements with quote text and author (if available)
+                    urltemp=imageUrl
+                    downloadAndDisplayImage(imageUrl)
+                    if (urltemp in likedImages) {
+                        likeButton.setImageResource(R.drawable.heartfilled)
+                    } else {
+                        likeButton.setImageResource(R.drawable.heartempty)
+                    }
+                } else {
+                    Log.w("TAG", "Firestore: No quotes found")
+                    // Handle the case where no quotes are retrieved
+                }
+            } else {
+                Log.w("TAG", "Firestore: Error getting documents.", task.exception)
+                // Handle potential errors during data retrieval
+            }
+        }
     }
 
-    private fun shareCurrentImage() {
-        //ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_REQUEST_CODE)
-        //val imageView = findViewById<ImageView>(R.id.imageViewId)
-        //val bitmap = imageView.drawable.toBitmap()
-        //val outputStream = FileOutputStream(tempFile)
-        //bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        //outputStream.close()
-        //val contentUri = FileProvider.getUriForFile(this, "com.example.quotiva.provider", tempFile)
-        //this.grantUriPermission(this.packageName, contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        //val imageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
-        //val shareIntent = Intent(Intent.ACTION_SEND)
-        //shareIntent.setType("image/*")
-        //shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        //shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
-        //startActivity(Intent.createChooser(shareIntent, "Share Image"))
-        //tempFile.delete()
-        //fun shareImageButtonClicked() {
-            val file = File("android.resource://com.example.quotiva/res/drawable/background.png")
-            val contentUri = FileProvider.getUriForFile(this, "com.example.quotiva.fileprovider", file)
+    private fun downloadAndDisplayImage(imageUrl: String) {
 
-            val shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.setType("image/png")
-            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        // Check if imageUrl is valid
+        if (imageUrl.isNotEmpty()) {
+            val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
 
-            startActivity(Intent.createChooser(shareIntent, "Share Image"))
+            // Asynchronously retrieve the download URL
+            storageReference.downloadUrl.addOnSuccessListener { uri ->
+                // Download successful, display the image using Glide
+                Glide.with(this).load(uri).into(imageView)
+            }.addOnFailureListener {
+                // Handle any errors
+                Log.w("tag", "Error downloading image from Firebase Storage", it)
+                // Display a placeholder or error message if needed
+            }
+        } else {
+            // Handle the case where imageUrl is empty
+            // Display a placeholder or error message
+        }
+    }
 
 
+    private fun shareImage() {
+        // Get the bitmap of the currently displayed image
+        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        Log.d("bitmap","$bitmap")
+
+        // Create a temporary file to store the image
+        val imageFile = createTempImageFile(bitmap)
+        Log.e("imagefile","$imageFile")
+        imageUri = FileProvider.getUriForFile(this, "com.example.quotiva.fileprovider", imageFile)
+        Log.d("imageURI","$imageUri")
+        // Create a share intent with the image URI
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, imageUri)
+            type = "image/*"
+        }
+
+        // Start the share activity
+        startActivity(Intent.createChooser(shareIntent, "Share image using"))
+    }
+
+    // Helper function to create a temporary image file
+    private fun createTempImageFile(bitmap: Bitmap): File {
+        val cacheDir = applicationContext.cacheDir
+        val tempFile = File.createTempFile("temp_image_", ".jpg", cacheDir)
+        tempFile.deleteOnExit() // Delete the file when the app exits
+
+        val outputStream = FileOutputStream(tempFile)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+        outputStream.close()
+
+        return tempFile
     }
 
 

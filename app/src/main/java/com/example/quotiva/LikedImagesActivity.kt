@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageButton
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 
 class LikedImagesActivity : AppCompatActivity() {
 
@@ -24,10 +27,11 @@ class LikedImagesActivity : AppCompatActivity() {
     private lateinit var instaBtn: ImageButton
     private lateinit var linkedinBtn: ImageButton
     private lateinit var githubBtn: ImageButton
+    lateinit var imageUrl:String
 
 
     private var imageIndex = 0
-    private var likedImages = emptyList<Int>()
+    private var likedImages = emptyList<String>()
     private val placeholderImageResId = R.drawable.nothing
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,23 +54,18 @@ class LikedImagesActivity : AppCompatActivity() {
 
 
         likedImages =
-            intent.getIntegerArrayListExtra("likedImages") ?: emptyList()
+            intent.getStringArrayListExtra("likedImages") ?: emptyList()
         imageIndex = 0
-
+        Log.w("imageurl","$likedImages")
         if (likedImages.isEmpty()) {
             previousButton.visibility = View.INVISIBLE
             previousButton.isEnabled = false
             nextButton.visibility = View.INVISIBLE
             nextButton.isEnabled = false
+            imageView.setImageResource(placeholderImageResId)
         } else {
             // Display the initial image
             imageIndex = 0
-            displayImage()
-        }
-
-        if (likedImages.isEmpty()) {
-            imageView.setImageResource(placeholderImageResId)
-        } else {
             displayImage()
         }
 
@@ -116,6 +115,26 @@ class LikedImagesActivity : AppCompatActivity() {
     }
 
     private fun displayImage() {
-        imageView.setImageResource(likedImages[imageIndex])
+        if (likedImages.isNotEmpty()) {
+            val imageUrl = likedImages[imageIndex]
+            Log.w("imageurl","$imageUrl")
+            try {
+                val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+                storageReference.downloadUrl.addOnSuccessListener { uri ->
+                    Glide.with(this).load(uri).into(imageView)
+                }.addOnFailureListener {
+                    Log.w("LikedImagesActivity", "Error downloading image from Firebase Storage", it)
+                    // Display a placeholder or error message
+                }
+            } catch (e: IllegalArgumentException) {
+                Log.e("LikedImagesActivity", "Invalid image URL: $imageUrl", e)
+                // Handle the error:
+                // - Display a placeholder error image
+                // - Skip to the next valid image
+                // - Notify the user about the invalid URL
+            }
+        } else {
+            imageView.setImageResource(placeholderImageResId)
+        }
     }
 }
