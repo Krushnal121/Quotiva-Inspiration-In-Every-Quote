@@ -52,8 +52,6 @@ MainActivity : AppCompatActivity() {
         TODO("VERSION.SDK_INT < O")
     }
 
-    private var imageIndex = 0
-    private val images = arrayOf(R.drawable.one, R.drawable.two, R.drawable.three,R.drawable.four,R.drawable.five,R.drawable.six,R.drawable.seven,R.drawable.eight,R.drawable.nine,R.drawable.ten,R.drawable.eleven,R.drawable.twelve,R.drawable.thirteen,R.drawable.fourteen,R.drawable.fifteen,R.drawable.sixteen,R.drawable.seventeen, R.drawable.eighteen,R.drawable.nineteen,R.drawable.twenty)
     var likedImages = mutableListOf<String>()
 
     private fun loadLikedImagesFromPreferences() {
@@ -106,18 +104,15 @@ MainActivity : AppCompatActivity() {
         }
 
 
-        imageIndex = Random.nextInt(images.size)
         displayImage()
 
         previousButton.setOnClickListener {
             vibrator?.vibrate(10)
-            imageIndex = (imageIndex - 1 + images.size) % images.size
             displayImage()
         }
 
         nextButton.setOnClickListener {
             vibrator?.vibrate(10)
-            imageIndex = (imageIndex + 1) % images.size
             displayImage()
         }
 

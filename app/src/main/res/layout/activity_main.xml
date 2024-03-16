@@ -76,7 +76,7 @@ app:cardBackgroundColor="@color/material_on_background_emphasis_high_type">
             android:layout_width="380dp"
             android:layout_height="380dp"
             android:layout_gravity="center"
-            android:src="@drawable/one"
+            android:src="@drawable/nothing"
             android:alpha="1">
 
         </ImageView>
